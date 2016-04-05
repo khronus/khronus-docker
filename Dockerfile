@@ -18,4 +18,6 @@ ADD khronus-0.2.tgz /opt/khronus
 
 COPY scripts/start-khronus.sh /opt/khronus/
 
+COPY scripts/khronus-dashboard.json /opt/khronus/
+
 ENTRYPOINT ["/opt/khronus/start-khronus.sh"]
