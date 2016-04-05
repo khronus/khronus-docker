@@ -18,6 +18,4 @@ ADD khronus-0.2.tgz /opt/khronus
 
 COPY scripts/start-khronus.sh /opt/khronus/
 
-COPY khronus /usr/share/grafana/public/app/plugins/datasource/khronus
-
 ENTRYPOINT ["/opt/khronus/start-khronus.sh"]
