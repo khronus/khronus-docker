@@ -9,7 +9,7 @@ sudo docker rm khronus-cassandra
 sudo docker rm khronus
 
 # start cassandra container
-sudo docker run --name khronus-cassandra -d cassandra:latest
+sudo docker run --name khronus-cassandra -d cassandra:2.1.13
 
 sudo docker build -t searchlight/khronus .
 
