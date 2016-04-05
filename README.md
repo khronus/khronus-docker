@@ -1,7 +1,7 @@
 khronus-docker - (Khronus + Grafana + Cassandra)
 ======
 
-Docker container with Khronus, Grafana and Cassandra. Actually, it is composed by two containers: Khronus+Grafana linked to an [official Cassandra container](https://hub.docker.com/_/cassandra/). It is intended to be the best way to getting started to Khronus. For production is recommended to configure and run a Khronus cluster following the instructions [here](https://github.com/Searchlight/khronus).
+Docker container with Khronus, Grafana and Cassandra. Actually, it is composed by two containers: Khronus+Grafana linked to an [official Cassandra container](https://hub.docker.com/_/cassandra/). It is intended to be the best way to getting started to Khronus. For production is recommended to configure and run a Khronus cluster following the instructions [here](https://github.com/Searchlight/khronus#installation).
 
 ##Instructions
 
