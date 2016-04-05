@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# download khronus
+[ -f "khronus-0.2.tgz" ] && echo "Khronus exists, nothing to do" ||  wget "https://github.com/Searchlight/khronus/releases/download/v0.2.0/khronus-0.2.tgz"
+
 sudo docker stop khronus-cassandra
 
 sudo docker stop khronus
