@@ -1,23 +1,16 @@
-FROM library/java
+FROM library/java:jre-alpine
 
-RUN apt-get update && apt-get -y install libfontconfig netcat curl wget adduser openssl ca-certificates && apt-get clean
+RUN apk add --update bash curl snappy
+RUN apk add --update java-snappy --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted
 
-RUN wget https://grafanarel.s3.amazonaws.com/builds/grafana_2.6.0_amd64.deb
+ADD grafana-bins/grafana-alpine-build.tgz /
+ADD khronus-0.2.tgz /opt/khronus
+COPY scripts /opt/khronus/
+#REPLACE java-snappy jar with the one from alpine
+RUN find /opt -name "*snappy*jar" | xargs -n1 cp /usr/share/java/snappy-java.jar
 
-RUN dpkg -i grafana_2.6.0_amd64.deb
-
+#8400 for khronus-influx, 3000 grafana
 EXPOSE 8400 3000
 
-VOLUME ["/var/lib/grafana"]
-VOLUME ["/var/log/grafana"]
-VOLUME ["/etc/grafana"]
-
-WORKDIR /opt/khronus/khronus-0.2
-
-ADD khronus-0.2.tgz /opt/khronus
-
-COPY scripts/start-khronus.sh /opt/khronus/
-
-COPY scripts/khronus-dashboard.json /opt/khronus/
-
+#Khronus
 ENTRYPOINT ["/opt/khronus/start-khronus.sh"]

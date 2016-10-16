@@ -1,9 +1,7 @@
 #!/bin/bash
 
-sudo docker stop khronus-cassandra
+docker stop khronus-cassandra
+docker stop khronus-slim
+docker rm khronus-cassandra
+docker rm khronus-slim
 
-sudo docker stop khronus
-
-sudo docker rm khronus-cassandra
-
-sudo docker rm khronus
