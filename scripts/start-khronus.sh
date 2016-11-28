@@ -10,17 +10,30 @@ function waitFor {
 	done	
 }
 
+CREDENTIALS='YWRtaW46YWRtaW4=' #RFC 2045 base64 encoding -> printf admin:admin | base64
+
+function post {
+	host=$1
+	port=$2
+	url=$3
+	content=$4
+	content_length=$(echo -n "$content" | wc -c)
+	echo -ne "POST $url HTTP/1.1\r\nHost: $host\r\nAuthorization: Basic $CREDENTIALS\r\nContent-Type: application/json;charset=UTF-8\r\nContent-Length: $content_length\r\n\r\n$content" | nc -i 3 $host $port
+}
+
 cd /usr/share/grafana && nohup /usr/share/grafana/bin/grafana-server --config=/etc/grafana/grafana.ini cfg:default.paths.data=/var/lib/grafana cfg:default.paths.logs=/var/log/grafana &
 
-waitFor localhost 3000
+GRAFANA_HOST='localhost'
+GRAFANA_PORT=3000
+waitFor "$GRAFANA_HOST" "$GRAFANA_PORT"
 
-GRAFANA_AUTH="localhost:3000"
 myIp=$(hostname -i)
 DATASOURCE_PAYLOAD='{"name":"khronus","type":"influxdb_08","isDefault": true,"url":"http://localhost:8400/khronus","access":"direct","database":"influx","user":"test","password":"test"}'
+DATASOURCE_PAYLOAD_LEN=$(echo -n ${DATASOURCE_PAYLOAD} | wc -c)
 
-curl "http://admin:admin@${GRAFANA_AUTH}/api/datasources" -H 'Accept-Encoding: gzip, deflate' -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --data-binary "$DATASOURCE_PAYLOAD" --compressed
+post "$GRAFANA_HOST" "$GRAFANA_PORT" '/api/datasources' "$DATASOURCE_PAYLOAD"
 
-curl "http://admin:admin@${GRAFANA_AUTH}/api/dashboards/db/" -H 'Accept-Encoding: gzip, deflate' -H 'Content-Type: application/json;charset=UTF-8' --data-binary @/opt/khronus/khronus-dashboard.json --compressed
+post "$GRAFANA_HOST" "$GRAFANA_PORT" '/api/dashboards/db/' "`cat /opt/khronus/khronus-dashboard.json`"
 
 waitFor $CASSANDRA_PORT_9042_TCP_ADDR $CASSANDRA_PORT_9042_TCP_PORT
 

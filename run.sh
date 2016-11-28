@@ -8,7 +8,7 @@
 docker build -t searchlight/khronus-slim .
 
 # start cassandra container
-docker run --name khronus-cassandra -d cassandra:2.1.13
+docker run --name khronus-cassandra -d cassandra:2.1.16
 
 # start khronus & grafana container
-docker run --name khronus-slim -i -p 3000:3000 -p 8400:8400 --link khronus-cassandra:cassandra -d searchlight/khronus-slim && echo "Open http://localhost:3000/dashboard/db/example-dashboard and login with admin/admin"
+docker run --name khronus-slim -i -p 3000:3000 -p 8400:8400 --link khronus-cassandra:cassandra -d searchlight/khronus-slim && echo "Open http://localhost:3000/dashboard/db/khronus-cluster to see khronus metrics"
