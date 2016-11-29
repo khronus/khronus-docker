@@ -7,6 +7,6 @@ Docker container with Khronus, Grafana and Cassandra. Actually, it is composed b
 
 1. Clone the repo
 2. Execute run.sh
-3. Go to [Grafana on http://localhost:3000](http://localhost:3000) (user: admin, pass: admin)
-4. There is an Example Dashboard to use as an example and to start playing with it. Give Khronus some time to collect some internal metrics.
+3. Go to [Grafana on http://localhost:3000/dashboard/db/khronus-cluster](http://localhost:3000/dashboard/db/khronus-cluster)
+4. There is an example dashboard to use as an example and to start playing with it. Give Khronus some time to collect some internal metrics.
 5. Enjoy!

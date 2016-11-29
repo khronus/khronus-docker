@@ -3,19 +3,12 @@
 # download khronus
 [ -f "khronus-0.2.tgz" ] && echo "Khronus exists, nothing to do" ||  wget "https://github.com/Searchlight/khronus/releases/download/v0.2.0/khronus-0.2.tgz"
 
-sudo docker stop khronus-cassandra
+./stop.sh
 
-sudo docker stop khronus
-
-sudo docker rm khronus-cassandra
-
-sudo docker rm khronus
+docker build -t searchlight/khronus-slim .
 
 # start cassandra container
-sudo docker run --name khronus-cassandra -d cassandra:2.1.13
+docker run --name khronus-cassandra -d cassandra:2.1.16
 
-sudo docker build -t searchlight/khronus .
-
-# start khronus container
-# start grafana container
-sudo docker run --name khronus -i -p 3000:3000 -p 8400:8400 --link khronus-cassandra:cassandra -d searchlight/khronus
+# start khronus & grafana container
+docker run --name khronus-slim -i -p 3000:3000 -p 8400:8400 --link khronus-cassandra:cassandra -d searchlight/khronus-slim && echo "Open http://localhost:3000/dashboard/db/khronus-cluster to see khronus metrics"
